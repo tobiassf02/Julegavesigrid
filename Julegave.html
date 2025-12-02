@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <title>Gledelig jul!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --bg1: #0b1020;
+      --bg2: #1b2340;
+      --accent: #ffdf5b;
+      --accent2: #ff6fb5;
+      --text-main: #ffffff;
+      --ticket-bg: #121a30;
+      --ticket-border: #ffdf5b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, sans-serif;
+      color: var(--text-main);
+      background: radial-gradient(circle at top, #2d3a7a 0, var(--bg1) 40%, #050712 100%);
+      overflow-x: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .container {
+      position: relative;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      padding: 24px 18px 28px;
+      border-radius: 24px;
+      background: rgba(5, 8, 20, 0.9);
+      box-shadow: 0 0 40px rgba(0,0,0,0.7), 0 0 80px rgba(255,223,91,0.05);
+      backdrop-filter: blur(10px);
+      animation: card-pop 0.8s ease-out forwards;
+      transform: translateY(30px);
+      opacity: 0;
+    }
+
+    @keyframes card-pop {
+      0% { transform: translateY(30px) scale(0.95); opacity: 0; }
+      60% { transform: translateY(-4px) scale(1.02); opacity: 1; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    h1 { font-size: 1.9rem; margin-bottom: 8px; }
+    .subtitle { font-size: 0.95rem; margin-bottom: 18px; color: #d7ddff; }
+    .subtitle strong { color: var(--accent); }
+
+    .tickets {
+      position: relative;
+      margin: 14px 0 16px;
+      height: 210px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ticket {
+      position: absolute;
+      width: 70%;
+      max-width: 260px;
+      height: 150px;
+      background: radial-gradient(circle at top left, #273366, var(--ticket-bg));
+      border-radius: 20px;
+      border: 2px dashed var(--ticket-border);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5), 0 0 22px rgba(255,223,91,0.25);
+      padding: 16px 18px;
+      opacity: 0;
+    }
+
+    .ticket-left { animation: ticket-left-in 1s 0.4s ease-out forwards; }
+    .ticket-right { animation: ticket-right-in 1s 0.55s ease-out forwards; }
+
+    @keyframes ticket-left-in {
+      0% { transform: translate(-80px, 40px) rotate(-18deg) scale(0.8); opacity: 0; }
+      70% { transform: translate(-10px, -4px) rotate(-6deg) scale(1.03); opacity: 1; }
+      100% { transform: translate(-6px, 0) rotate(-8deg) scale(1); opacity: 1; }
+    }
+
+    @keyframes ticket-right-in {
+      0% { transform: translate(80px, -40px) rotate(18deg) scale(0.8); opacity: 0; }
+      70% { transform: translate(10px, 4px) rotate(6deg) scale(1.03); opacity: 1; }
+      100% { transform: translate(6px, 0) rotate(8deg) scale(1); opacity: 1; }
+    }
+
+    .ticket-header {
+      font-size: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      opacity: 0.85;
+      text-transform: uppercase;
+    }
+
+    .ticket-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      color: var(--accent);
+    }
+
+    .ticket-info { font-size: 0.85rem; color: #e0e4ff; }
+    .ticket-footer {
+      font-size: 0.7rem;
+      display: flex;
+      justify-content: space-between;
+      opacity: 0.9;
+      text-transform: uppercase;
+    }
+
+    .ticket-code {
+      font-family: monospace;
+      padding: 2px 6px;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 999px;
+    }
+
+    .note { font-size: 0.9rem; margin-top: 14px; line-height: 1.4; color: #e4e7ff; }
+    .note span { color: var(--accent2); }
+
+    .small-hint {
+      margin-top: 10px;
+      font-size: 0.75rem;
+      color: #98a0d9;
+    }
+
+    /* Knapp */
+    .reveal-btn {
+      margin-top: 22px;
+      background: var(--accent2);
+      color: #fff;
+      padding: 12px 22px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.15s ease;
+    }
+
+    .reveal-btn:hover { transform: scale(1.05); }
+
+    .reveal-btn:active { transform: scale(0.96); }
+
+    /* Skjult seksjon */
+    .hidden-section {
+      margin-top: 16px;
+      background: rgba(255,255,255,0.05);
+      padding: 16px;
+      border-radius: 14px;
+      line-height: 1.5;
+      display: none;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: all 0.4s ease;
+    }
+
+    .hidden-section.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Konfetti */
+    .confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .confetti span {
+      position: absolute;
+      width: 8px;
+      height: 14px;
+      border-radius: 2px;
+      background: var(--accent);
+      opacity: 0;
+      animation: confetti-fall 4.5s linear infinite;
+    }
+
+    @keyframes confetti-fall {
+      0% { transform: translateY(-20vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="confetti">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <main class="container">
+    <h1>God Jul Sigrid! ❤️🎄</h1>
+    <p class="subtitle">
+      Vi skal på konsert!:<br>
+      <strong>TAME IMPALA, 27. APRIL, OSLO</strong>
+    </p>
+
+    <div class class="tickets">
+      <div class="ticket ticket-left">
+        <div class="ticket-header"><span>Konsertbillett</span><span>Rad ♥</span></div>
+        <div class="ticket-title">TAME IMPALA</div>
+        <div class="ticket-info">
+          27. april · Oslo<br>
+          To plasser reservert til<br>
+          <strong>deg + han kule kjæresten din</strong>
+        </div>
+        <div class="ticket-footer"><span>Inngang</span><span class="ticket-code">001</span></div>
+      </div>
+
+      <div class="ticket ticket-right">
+        <div class="ticket-header"><span>Konsertbillett</span><span>Rad 💫</span></div>
+        <div class="ticket-title">TAME IMPALA</div>
+        <div class="ticket-info">
+          Dato: 27. april<br>
+          Sted: Oslo<br>
+          Dresskode: <strong>godt humør</strong>
+        </div>
+        <div class="ticket-footer"><span>VIP-ish</span><span class="ticket-code">002</span></div>
+      </div>
+    </div>
+
+    <p class="note">
+      Dette er <span>din</span> offisielle bekreftelse på at du skal ut og høre på musikk i verdensklasse. ✨
+    </p>
+
+    <button class="reveal-btn" id="revealBtn">Vis mer info 🎁</button>
+
+    <div class="hidden-section" id="hiddenSection">
+      <p><strong>Praktisk info:</strong></p>
+      <p>• Vi drar til Oslo dagen før  
+         • Overnatting ordner jeg  
+         • Du trenger bare å møte opp og være søt  
+         • Jeg fikser resten 🫶
+         • En liten ekstra suprise, Åsne og Herman skal også wohoo!</p>
+    </div>
+
+    <p class="small-hint">(Ikke si du ikke fikk hint nok nå) 😏</p>
+  </main>
+
+  <script>
+    const btn = document.getElementById("revealBtn");
+    const section = document.getElementById("hiddenSection");
+
+    btn.addEventListener("click", () => {
+      section.classList.toggle("show");
+      btn.textContent = section.classList.contains("show")
+        ? "Skjul info 🔒"
+        : "Vis mer info 🎁";
+    });
+  </script>
+
+</body>
+</html>
