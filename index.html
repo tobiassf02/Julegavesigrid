@@ -2,12 +2,11 @@
 <html lang="no">
 <head>
   <meta charset="UTF-8">
-  <title>God jul!</title>
+  <title>Gledelig jul!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     :root {
       --bg1: #0b1020;
-      --bg2: #1b2340;
       --accent: #ffdf5b;
       --accent2: #ff6fb5;
       --text-main: #ffffff;
@@ -15,11 +14,15 @@
       --ticket-border: #ffdf5b;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       min-height: 100vh;
-      font-family: system-ui, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text-main);
       background: radial-gradient(circle at top, #2d3a7a 0, var(--bg1) 40%, #050712 100%);
       overflow-x: hidden;
@@ -37,106 +40,73 @@
       padding: 24px 18px 28px;
       border-radius: 24px;
       background: rgba(5, 8, 20, 0.9);
-      box-shadow: 0 0 40px rgba(0,0,0,0.7), 0 0 80px rgba(255,223,91,0.05);
+      box-shadow:
+        0 0 40px rgba(0, 0, 0, 0.7),
+        0 0 80px rgba(255, 223, 91, 0.05);
       backdrop-filter: blur(10px);
       animation: card-pop 0.8s ease-out forwards;
       transform: translateY(30px);
       opacity: 0;
+      z-index: 1;
     }
 
     @keyframes card-pop {
-      0% { transform: translateY(30px) scale(0.95); opacity: 0; }
-      60% { transform: translateY(-4px) scale(1.02); opacity: 1; }
-      100% { transform: translateY(0) scale(1); opacity: 1; }
+      0% {
+        transform: translateY(30px) scale(0.95);
+        opacity: 0;
+      }
+      60% {
+        transform: translateY(-4px) scale(1.02);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
     }
 
-    h1 { font-size: 1.9rem; margin-bottom: 8px; }
-    .subtitle { font-size: 0.95rem; margin-bottom: 18px; color: #d7ddff; }
-    .subtitle strong { color: var(--accent); }
-
-    .tickets {
-      position: relative;
-      margin: 14px 0 16px;
-      height: 210px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    h1 {
+      font-size: 1.9rem;
+      margin-bottom: 8px;
     }
 
-    .ticket {
-      position: absolute;
-      width: 70%;
-      max-width: 260px;
-      height: 150px;
-      background: radial-gradient(circle at top left, #273366, var(--ticket-bg));
-      border-radius: 20px;
-      border: 2px dashed var(--ticket-border);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5), 0 0 22px rgba(255,223,91,0.25);
-      padding: 16px 18px;
-      opacity: 0;
+    .subtitle {
+      font-size: 0.95rem;
+      color: #d7ddff;
+      margin-bottom: 18px;
     }
 
-    .ticket-left { animation: ticket-left-in 1s 0.4s ease-out forwards; }
-    .ticket-right { animation: ticket-right-in 1s 0.55s ease-out forwards; }
-
-    @keyframes ticket-left-in {
-      0% { transform: translate(-80px, 40px) rotate(-18deg) scale(0.8); opacity: 0; }
-      70% { transform: translate(-10px, -4px) rotate(-6deg) scale(1.03); opacity: 1; }
-      100% { transform: translate(-6px, 0) rotate(-8deg) scale(1); opacity: 1; }
-    }
-
-    @keyframes ticket-right-in {
-      0% { transform: translate(80px, -40px) rotate(18deg) scale(0.8); opacity: 0; }
-      70% { transform: translate(10px, 4px) rotate(6deg) scale(1.03); opacity: 1; }
-      100% { transform: translate(6px, 0) rotate(8deg) scale(1); opacity: 1; }
-    }
-
-    .ticket-header {
-      font-size: 0.75rem;
-      display: flex;
-      justify-content: space-between;
-      opacity: 0.85;
-      text-transform: uppercase;
-    }
-
-    .ticket-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 4px;
+    .subtitle strong {
       color: var(--accent);
     }
 
-    .ticket-info { font-size: 0.85rem; color: #e0e4ff; }
-    .ticket-footer {
-      font-size: 0.7rem;
-      display: flex;
-      justify-content: space-between;
-      opacity: 0.9;
-      text-transform: uppercase;
+    .note {
+      font-size: 0.9rem;
+      color: #e4e7ff;
+      margin-top: 6px;
+      line-height: 1.4;
     }
 
-    .ticket-code {
-      font-family: monospace;
-      padding: 2px 6px;
-      background: rgba(0,0,0,0.35);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 999px;
+    .note span {
+      color: var(--accent2);
+      font-weight: 600;
     }
-
-    .note { font-size: 0.9rem; margin-top: 14px; line-height: 1.4; color: #e4e7ff; }
-    .note span { color: var(--accent2); }
 
     .small-hint {
       margin-top: 10px;
       font-size: 0.75rem;
       color: #98a0d9;
+      opacity: 0.9;
+    }
+
+    .small-hint strong {
+      color: var(--accent);
     }
 
     /* Knapp */
+
     .reveal-btn {
-      margin-top: 22px;
+      margin-top: 18px;
       background: var(--accent2);
       color: #fff;
       padding: 12px 22px;
@@ -145,17 +115,25 @@
       border-radius: 14px;
       cursor: pointer;
       font-weight: 600;
-      transition: transform 0.15s ease;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
     }
 
-    .reveal-btn:hover { transform: scale(1.05); }
+    .reveal-btn:hover {
+      transform: scale(1.05) translateY(-1px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.6);
+    }
 
-    .reveal-btn:active { transform: scale(0.96); }
+    .reveal-btn:active {
+      transform: scale(0.96) translateY(1px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
 
     /* Skjult seksjon */
+
     .hidden-section {
       margin-top: 16px;
-      background: rgba(255,255,255,0.05);
+      background: rgba(255, 255, 255, 0.05);
       padding: 16px;
       border-radius: 14px;
       line-height: 1.5;
@@ -163,6 +141,7 @@
       opacity: 0;
       transform: translateY(-8px);
       transition: all 0.4s ease;
+      font-size: 0.9rem;
     }
 
     .hidden-section.show {
@@ -171,38 +150,263 @@
       transform: translateY(0);
     }
 
-    /* Konfetti */
+    /* Billetter – under teksten */
+
+    .tickets {
+      margin-top: 22px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .ticket {
+      position: relative;
+      width: 47%;
+      max-width: 220px;
+      min-width: 170px;
+      height: 150px;
+      background: radial-gradient(circle at top left, #273366, var(--ticket-bg));
+      border-radius: 20px;
+      border: 2px dashed var(--ticket-border);
+      box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.5),
+        0 0 22px rgba(255, 223, 91, 0.25);
+      padding: 14px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .ticket::before,
+    .ticket::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 16px;
+      height: 16px;
+      background: rgba(5, 8, 20, 0.98);
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
+
+    .ticket::before {
+      left: -9px;
+    }
+
+    .ticket::after {
+      right: -9px;
+    }
+
+    .ticket-left {
+      transform: rotate(-7deg);
+      animation: ticket-up-left 0.7s 0.4s ease-out forwards;
+    }
+
+    .ticket-right {
+      transform: rotate(7deg);
+      animation: ticket-up-right 0.7s 0.5s ease-out forwards;
+    }
+
+    @keyframes ticket-up-left {
+      0% {
+        transform: translateY(20px) rotate(-16deg) scale(0.9);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0) rotate(-7deg) scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes ticket-up-right {
+      0% {
+        transform: translateY(20px) rotate(16deg) scale(0.9);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0) rotate(7deg) scale(1);
+        opacity: 1;
+      }
+    }
+
+    .ticket-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #f5f5f5;
+      opacity: 0.85;
+    }
+
+    .ticket-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 4px 0;
+      color: var(--accent);
+      text-align: left;
+    }
+
+    .ticket-info {
+      font-size: 0.8rem;
+      color: #e0e4ff;
+      line-height: 1.35;
+      text-align: left;
+    }
+
+    .ticket-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #cfd5ff;
+      opacity: 0.9;
+    }
+
+    .ticket-code {
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* Konfetti i gull langs sidene */
+
     .confetti {
       position: fixed;
       inset: 0;
       pointer-events: none;
       overflow: hidden;
-      z-index: -1;
+      z-index: 0;
     }
 
     .confetti span {
       position: absolute;
-      width: 8px;
+      width: 7px;
       height: 14px;
       border-radius: 2px;
-      background: var(--accent);
+      background: #ffd700;
       opacity: 0;
-      animation: confetti-fall 4.5s linear infinite;
+      animation: confetti-fall 5s linear infinite;
     }
 
     @keyframes confetti-fall {
-      0% { transform: translateY(-20vh) rotate(0deg); opacity: 0; }
-      10% { opacity: 1; }
-      100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
+      0% {
+        transform: translateY(-20vh) rotateZ(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(120vh) rotateZ(360deg);
+        opacity: 0;
+      }
     }
+
+    /* Plasser konfetti hovedsakelig på sidene */
+
+    .confetti span:nth-child(1)  { left: 3%;  animation-delay: 0.2s; }
+    .confetti span:nth-child(2)  { left: 8%;  animation-delay: 1.0s; }
+    .confetti span:nth-child(3)  { left: 13%; animation-delay: 1.8s; }
+    .confetti span:nth-child(4)  { left: 18%; animation-delay: 0.5s; }
+    .confetti span:nth-child(5)  { left: 82%; animation-delay: 1.2s; }
+    .confetti span:nth-child(6)  { left: 87%; animation-delay: 0.7s; }
+    .confetti span:nth-child(7)  { left: 92%; animation-delay: 1.9s; }
+    .confetti span:nth-child(8)  { left: 97%; animation-delay: 0.3s; }
+    .confetti span:nth-child(9)  { left: 6%;  animation-delay: 2.4s; }
+    .confetti span:nth-child(10) { left: 94%; animation-delay: 2.1s; }
+    .confetti span:nth-child(11) { left: 15%; animation-delay: 2.8s; }
+    .confetti span:nth-child(12) { left: 85%; animation-delay: 3.0s; }
+
+    /* Countdown-overlay */
+
+    .countdown-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, #111633 0, #03040a 60%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      flex-direction: column;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .countdown-overlay.hide {
+      opacity: 0;
+      transform: scale(1.03);
+    }
+
+    .countdown-box {
+      text-align: center;
+    }
+
+    .count-label {
+      font-size: 1rem;
+      color: #f0e6ff;
+      margin-bottom: 10px;
+    }
+
+    .count-number {
+      font-size: 4rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-shadow: 0 0 25px rgba(255, 223, 91, 0.7);
+    }
+
+    /* Mobil */
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px 14px 22px;
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      .subtitle {
+        font-size: 0.9rem;
+      }
+
+      .ticket {
+        width: 80%;
+        max-width: none;
+        margin-bottom: 6px;
+      }
+
+      .ticket-left,
+      .ticket-right {
+        transform: rotate(0deg);
+      }
+    }
+
   </style>
 </head>
 <body>
 
+  <!-- Countdown -->
+  <div id="countdownOverlay" class="countdown-overlay">
+    <div class="countdown-box">
+      <p class="count-label">Gaven lastes inn …</p>
+      <span id="countdownNumber" class="count-number">5</span>
+    </div>
+  </div>
+
+  <!-- Konfetti i gull -->
   <div class="confetti">
     <span></span><span></span><span></span><span></span><span></span>
     <span></span><span></span><span></span><span></span><span></span>
-    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span>
   </div>
 
   <main class="container">
@@ -212,49 +416,69 @@
       <strong>TAME IMPALA, 27. APRIL, OSLO</strong>
     </p>
 
-    <div class class="tickets">
-      <div class="ticket ticket-left">
-        <div class="ticket-header"><span>Konsertbillett</span><span>Rad ♥</span></div>
-        <div class="ticket-title">TAME IMPALA</div>
-        <div class="ticket-info">
-          27. april · Oslo<br>
-          To plasser reservert til<br>
-          <strong>deg + han kule kjæresten din</strong>
-        </div>
-        <div class="ticket-footer"><span>Inngang</span><span class="ticket-code">001</span></div>
-      </div>
-
-      <div class="ticket ticket-right">
-        <div class="ticket-header"><span>Konsertbillett</span><span>Rad 💫</span></div>
-        <div class="ticket-title">TAME IMPALA</div>
-        <div class="ticket-info">
-          Dato: 27. april<br>
-          Sted: Oslo<br>
-          Dresskode: <strong>Godt humør</strong>
-        </div>
-        <div class="ticket-footer"><span>VIP-ish</span><span class="ticket-code">002</span></div>
-      </div>
-    </div>
-
     <p class="note">
-      Dette er <span>din</span> offisielle bekreftelse på at du skal ut og høre på musikk i verdensklasse. ✨
+      Dette er <span>din</span> offisielle bekreftelse på at du er kidnappet til konsert.
+      Ingen refusjon, bare god stemning. ✨
     </p>
 
     <button class="reveal-btn" id="revealBtn">Vis mer info 🎁</button>
 
     <div class="hidden-section" id="hiddenSection">
       <p><strong>Praktisk info:</strong></p>
-      <p>• Vi drar til Sandefjord noen dager før  
-         • Overnatting ordner jeg  
-         • Du trenger bare å møte opp og være søt  
-         • Jeg fikser resten 🫶
-         • Liten ekstra suprise, Herman og Åsne skal også wohoo!</p>
+      <p>
+        • Vi drar til Sandefjord noen dager før<br>
+        • Overnatting ordner jeg<br>
+        • Du trenger bare å møte opp og være søt<br>
+        • Jeg fikser resten 🫶
+        • En liten overraskelse til: Åsne og Herman skal også wohoo!
+      </p>
     </div>
 
-    <p class="small-hint">(Ikke si du ikke fikk hint nok nå) 😏</p>
+    <div class="tickets">
+      <!-- Billett 1 -->
+      <div class="ticket ticket-left">
+        <div class="ticket-header">
+          <span>Konsertbillett</span>
+          <span>Rad ♥</span>
+        </div>
+        <div class="ticket-title">TAME IMPALA</div>
+        <div class="ticket-info">
+          27. april · Oslo<br>
+          To plasser reservert til<br>
+          <strong>deg + han kule kjæresten din</strong>
+        </div>
+        <div class="ticket-footer">
+          <span>Inngang</span>
+          <span class="ticket-code">JULEGAVE-001</span>
+        </div>
+      </div>
+
+      <!-- Billett 2 -->
+      <div class="ticket ticket-right">
+        <div class="ticket-header">
+          <span>Konsertbillett</span>
+          <span>Rad 💫</span>
+        </div>
+        <div class="ticket-title">TAME IMPALA</div>
+        <div class="ticket-info">
+          Dato: 27. april<br>
+          Sted: Oslo<br>
+          Dresskode: <strong>godt humør</strong>
+        </div>
+        <div class="ticket-footer">
+          <span>VIP-ish</span>
+          <span class="ticket-code">JULEGAVE-002</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="small-hint">
+      (Hvis du lurer på noe mer: spør han som ga deg denne) 😏
+    </p>
   </main>
 
   <script>
+    // Knapp for mer info
     const btn = document.getElementById("revealBtn");
     const section = document.getElementById("hiddenSection");
 
@@ -264,7 +488,26 @@
         ? "Skjul info 🔒"
         : "Vis mer info 🎁";
     });
-  </script>
 
+    // Nedtelling fra 5
+    const overlay = document.getElementById("countdownOverlay");
+    const numberEl = document.getElementById("countdownNumber");
+
+    let count = 5;
+    const countdown = setInterval(() => {
+      count--;
+      if (count <= 0) {
+        clearInterval(countdown);
+        overlay.classList.add("hide");
+        setTimeout(() => {
+          overlay.style.display = "none";
+        }, 650);
+      } else {
+        numberEl.textContent = count;
+      }
+    }, 1000);
+
+    console.log("Gave bekreftet: Tame Impala, 27. april, Oslo 🎫");
+  </script>
 </body>
 </html>
