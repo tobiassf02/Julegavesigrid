@@ -277,6 +277,88 @@
       background: rgba(0, 0, 0, 0.35);
       border: 1px solid rgba(255, 255, 255, 0.15);
     }
+    /* Nedtelling til konserten */
+    .countdown-box {
+      margin-top: 16px;
+      font-size: 0.9rem;
+      color: #e4e7ff;
+    }
+
+    .countdown-text span {
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* Ja / Nei-knapper */
+    .rsvp {
+      margin-top: 16px;
+    }
+
+    .rsvp-question {
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+
+    .rsvp-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+
+    .rsvp-button {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    }
+
+    .rsvp-yes {
+      background: var(--accent2);
+      color: #fff;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.45);
+    }
+
+    .rsvp-yes:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.5);
+    }
+
+    .rsvp-no {
+      background: rgba(255,255,255,0.08);
+      color: #f5f5f5;
+    }
+
+    .rsvp-no:hover {
+      transform: scale(1.03);
+      background: rgba(255,255,255,0.14);
+    }
+
+    .rsvp-no.shake {
+      animation: rsvp-shake 0.3s;
+    }
+
+    @keyframes rsvp-shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      50% { transform: translateX(4px); }
+      75% { transform: translateX(-4px); }
+      100% { transform: translateX(0); }
+    }
+
+    .rsvp-response {
+      font-size: 0.85rem;
+      color: #e4e7ff;
+    }
+
+    .rsvp-response.positive {
+      color: var(--accent2);
+      font-weight: 600;
+    }
 
     /* Ekstra lett gull-konfetti – mobilvennlig */
 
@@ -650,7 +732,7 @@
       </p>
     </div>
 
-    <div class="tickets">
+     <div class="tickets">
       <!-- Billett 1 -->
       <div class="ticket ticket-left">
         <div class="ticket-header">
@@ -661,7 +743,7 @@
         <div class="ticket-info">
           27. april · Oslo<br>
           To plasser reservert til<br>
-          <strong>deg + han kule fyren som ga gaven</strong>
+          <strong>deg + han dusten som ga gaven</strong>
         </div>
         <div class="ticket-footer">
           <span>Inngang</span>
@@ -686,6 +768,23 @@
           <span class="ticket-code">JULEGAVE-002</span>
         </div>
       </div>
+    </div>
+
+    <!-- Nedtelling til konserten -->
+    <div class="countdown-box">
+      <p class="countdown-text">
+        Det er <span id="daysToConcert">…</span> dager til konserten 🎶
+      </p>
+    </div>
+
+    <!-- Ja / Nei-knapper -->
+    <div class="rsvp">
+      <p class="rsvp-question">Blir du med?</p>
+      <div class="rsvp-buttons">
+        <button class="rsvp-button rsvp-yes" id="rsvpYes">Ja, jeg blir med! 🥹</button>
+        <button class="rsvp-button rsvp-no" id="rsvpNo">Nei…</button>
+      </div>
+      <p class="rsvp-response" id="rsvpResponse"></p>
     </div>
 
     <p class="small-hint">
@@ -852,6 +951,43 @@
     });
 
     console.log("Gave bekreftet: Tame Impala, 27. april, Oslo 🎫");
+        // Nedtelling til konsert (bruker dagens år, og hopper til neste år hvis datoen har vært)
+    (function() {
+      const span = document.getElementById("daysToConcert");
+      if (!span) return;
+
+      const today = new Date();
+      // 27. april, måned 3 (0 = jan)
+      let target = new Date(today.getFullYear(), 3, 27);
+
+      if (target < today) {
+        target.setFullYear(target.getFullYear() + 1);
+      }
+
+      const oneDay = 1000 * 60 * 60 * 24;
+      const diff = Math.round((target - today) / oneDay);
+      span.textContent = diff >= 0 ? diff : 0;
+    })();
+    // Ja / Nei-knapper
+    (function() {
+      const yesBtn = document.getElementById("rsvpYes");
+      const noBtn = document.getElementById("rsvpNo");
+      const resp = document.getElementById("rsvpResponse");
+
+      if (!yesBtn || !noBtn || !resp) return;
+
+      yesBtn.addEventListener("click", () => {
+        resp.textContent = "Riktig svar. Dette blir sykt kos ❤️";
+        resp.classList.add("positive");
+      });
+
+      noBtn.addEventListener("click", () => {
+        resp.textContent = "Feil svar. Prøv igjen 😈";
+        resp.classList.remove("positive");
+        noBtn.classList.add("shake");
+        setTimeout(() => noBtn.classList.remove("shake"), 300);
+      });
+    })();
   </script>
 </body>
 </html>
