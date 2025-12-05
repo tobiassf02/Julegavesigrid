@@ -14,7 +14,11 @@
       --ticket-border: #ffdf5b;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       min-height: 100vh;
@@ -28,7 +32,6 @@
       padding: 16px;
     }
 
-    /* Container */
     .container {
       position: relative;
       max-width: 480px;
@@ -37,18 +40,29 @@
       padding: 24px 18px 28px;
       border-radius: 24px;
       background: rgba(5, 8, 20, 0.9);
-      box-shadow: 0 0 40px rgba(0,0,0,0.7), 0 0 80px rgba(255,223,91,0.05);
+      box-shadow:
+        0 0 40px rgba(0, 0, 0, 0.7),
+        0 0 80px rgba(255, 223, 91, 0.05);
       backdrop-filter: blur(10px);
+      animation: card-pop 0.8s ease-out forwards;
       transform: translateY(30px);
       opacity: 0;
-      animation: popup 0.8s ease-out forwards;
       z-index: 1;
     }
 
-    @keyframes popup {
-      0% { transform: translateY(30px) scale(0.95); opacity: 0; }
-      60% { transform: translateY(-4px) scale(1.02); opacity: 1; }
-      100% { transform: translateY(0) scale(1); opacity: 1; }
+    @keyframes card-pop {
+      0% {
+        transform: translateY(30px) scale(0.95);
+        opacity: 0;
+      }
+      60% {
+        transform: translateY(-4px) scale(1.02);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
     }
 
     h1 {
@@ -78,6 +92,17 @@
       font-weight: 600;
     }
 
+    .small-hint {
+      margin-top: 10px;
+      font-size: 0.75rem;
+      color: #98a0d9;
+      opacity: 0.9;
+    }
+
+    .small-hint strong {
+      color: var(--accent);
+    }
+
     /* Knapp */
 
     .reveal-btn {
@@ -90,12 +115,19 @@
       border-radius: 14px;
       cursor: pointer;
       font-weight: 600;
-      transition: 0.15s ease;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.5);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
     }
 
-    .reveal-btn:hover { transform: scale(1.05); }
-    .reveal-btn:active { transform: scale(0.96); }
+    .reveal-btn:hover {
+      transform: scale(1.05) translateY(-1px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.6);
+    }
+
+    .reveal-btn:active {
+      transform: scale(0.96) translateY(1px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
 
     /* Skjult seksjon */
 
@@ -109,6 +141,7 @@
       opacity: 0;
       transform: translateY(-8px);
       transition: all 0.4s ease;
+      font-size: 0.9rem;
     }
 
     .hidden-section.show {
@@ -117,7 +150,7 @@
       transform: translateY(0);
     }
 
-    /* Billetter */
+    /* Billetter – under teksten */
 
     .tickets {
       margin-top: 22px;
@@ -130,36 +163,90 @@
     .ticket {
       position: relative;
       width: 47%;
+      max-width: 220px;
       min-width: 170px;
       height: 150px;
       background: radial-gradient(circle at top left, #273366, var(--ticket-bg));
       border-radius: 20px;
       border: 2px dashed var(--ticket-border);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5), 0 0 22px rgba(255,223,91,0.25);
-      padding: 14px;
+      box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.5),
+        0 0 22px rgba(255, 223, 91, 0.25);
+      padding: 14px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       opacity: 0;
-      animation: ticketFade 1s forwards;
     }
 
-    @keyframes ticketFade {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .ticket::before,
+    .ticket::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 16px;
+      height: 16px;
+      background: rgba(5, 8, 20, 0.98);
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
+
+    .ticket::before {
+      left: -9px;
+    }
+
+    .ticket::after {
+      right: -9px;
+    }
+
+    .ticket-left {
+      transform: rotate(-7deg);
+      animation: ticket-up-left 0.7s 0.4s ease-out forwards;
+    }
+
+    .ticket-right {
+      transform: rotate(7deg);
+      animation: ticket-up-right 0.7s 0.5s ease-out forwards;
+    }
+
+    @keyframes ticket-up-left {
+      0% {
+        transform: translateY(20px) rotate(-16deg) scale(0.9);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0) rotate(-7deg) scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes ticket-up-right {
+      0% {
+        transform: translateY(20px) rotate(16deg) scale(0.9);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0) rotate(7deg) scale(1);
+        opacity: 1;
+      }
     }
 
     .ticket-header {
       display: flex;
       justify-content: space-between;
       font-size: 0.7rem;
-      opacity: 0.85;
-      color: #eee;
       text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #f5f5f5;
+      opacity: 0.85;
     }
 
     .ticket-title {
       font-size: 0.98rem;
-      margin-top: 4px;
-      margin-bottom: 4px;
       font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 4px 0;
       color: var(--accent);
       text-align: left;
     }
@@ -167,28 +254,70 @@
     .ticket-info {
       font-size: 0.8rem;
       color: #e0e4ff;
-      text-align: left;
       line-height: 1.35;
+      text-align: left;
     }
 
     .ticket-footer {
       display: flex;
       justify-content: space-between;
-      font-size: 0.7rem;
+      align-items: center;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
       color: #cfd5ff;
       opacity: 0.9;
-      text-transform: uppercase;
     }
 
     .ticket-code {
-      font-family: monospace;
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.7rem;
       padding: 2px 6px;
       border-radius: 999px;
-      background: rgba(0,0,0,0.35);
-      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
-    /* Introsekvens */
+    /* Ekstra lett gull-konfetti – mobilvennlig */
+
+    .confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .confetti span {
+      position: absolute;
+      width: 3px;
+      height: 8px;
+      border-radius: 2px;
+      background: #ffd700;
+      opacity: 0.5;
+      animation: confetti-fall 3.5s linear infinite;
+    }
+
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(-20vh);
+        opacity: 0.4;
+      }
+      15% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    .confetti span:nth-child(1) { left: 6%;  animation-delay: 0.2s; }
+    .confetti span:nth-child(2) { left: 16%; animation-delay: 1.1s; }
+    .confetti span:nth-child(3) { left: 84%; animation-delay: 0.6s; }
+    .confetti span:nth-child(4) { left: 94%; animation-delay: 1.7s; }
+
+    /* Intro-overlay med boks */
 
     .intro-overlay {
       position: fixed;
@@ -198,70 +327,92 @@
       align-items: center;
       justify-content: center;
       z-index: 999;
-      flex-direction: column;
-      transition: 0.6s ease;
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
     .intro-overlay.hide {
       opacity: 0;
+      transform: scale(1.03);
       pointer-events: none;
     }
 
+    .intro-box {
+      text-align: center;
+      padding: 20px;
+    }
+
     .intro-main {
-      font-size: 1.2rem;
-      color: #f5f0ff;
+      font-size: 1.1rem;
       margin-bottom: 10px;
+      color: #f5f0ff;
     }
 
     .intro-sub {
       font-size: 0.9rem;
       color: #c4c6ff;
-      margin-bottom: 12px;
+      min-height: 1.2em;
     }
 
     .intro-dots {
+      margin-top: 10px;
       font-size: 1.4rem;
+      letter-spacing: 0.2em;
       color: var(--accent);
+      opacity: 0;
       animation: dots 1.2s infinite;
     }
 
     @keyframes dots {
       0% { opacity: 0; }
       50% { opacity: 1; }
-      100%{ opacity: 0; }
+      100% { opacity: 0; }
     }
 
     .intro-bar {
       margin-top: 14px;
       width: 180px;
+      max-width: 70vw;
       height: 6px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.15);
+      background: rgba(255, 255, 255, 0.15);
       overflow: hidden;
+      display: none;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .intro-bar-fill {
       height: 100%;
-      width: 0;
+      width: 0%;
+      border-radius: 999px;
       background: linear-gradient(90deg, var(--accent2), var(--accent));
-      animation: fill 3s linear forwards;
+      animation: bar-fill 3s linear forwards;
     }
 
-    @keyframes fill {
+    @keyframes bar-fill {
+      from { width: 0%; }
       to { width: 100%; }
     }
 
     .intro-count-wrapper {
-      display: none;
       margin-top: 14px;
+      display: none;
+    }
+
+    .intro-count-label {
+      font-size: 0.9rem;
+      color: #dcd8ff;
+      margin-bottom: 6px;
     }
 
     .intro-count-number {
       font-size: 3rem;
+      font-weight: 700;
       color: var(--accent);
+      text-shadow: 0 0 22px rgba(255, 223, 91, 0.7);
     }
 
-    /* Gave-eske */
+    /* Gave-eske steg */
 
     .gift-stage {
       position: fixed;
@@ -282,48 +433,104 @@
 
     .gift-box-wrapper {
       position: relative;
+      width: 130px;
+      height: 130px;
       perspective: 900px;
-      width: 120px;
-      height: 120px;
+      cursor: pointer;
     }
 
     .gift-base {
       width: 100%;
       height: 100%;
       background: #ff2d55;
-      border-radius: 12px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 0;
+    }
+
+    /* Gavebånd */
+    .gift-base::before,
+    .gift-base::after {
+      content: "";
+      position: absolute;
+      background: #ffd700;
+    }
+
+    .gift-base::before {
+      width: 18%;
+      height: 100%;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+    }
+
+    .gift-base::after {
+      height: 18%;
+      width: 100%;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .gift-emoji {
+      position: relative;
       font-size: 3rem;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 2;
     }
 
     .gift-lid {
       position: absolute;
-      top: 0;
+      top: -10px;
       left: 0;
-      width: 120px;
-      height: 40px;
+      width: 100%;
+      height: 45px;
       background: #ff3f5c;
-      border-radius: 12px;
-      transform-origin: top;
+      border-radius: 16px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+      transform-origin: top center;
       transform: rotateX(0deg);
       transition: transform 0.6s ease;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    }
+
+    .gift-lid::before,
+    .gift-lid::after {
+      content: "";
+      position: absolute;
+      background: #ffd700;
+    }
+
+    .gift-lid::before {
+      width: 18%;
+      height: 100%;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+    }
+
+    .gift-lid::after {
+      height: 40%;
+      width: 100%;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
     }
 
     .gift-lid.open {
-      transform: rotateX(-115deg);
+      transform: rotateX(-120deg);
     }
 
     .gift-light {
       position: absolute;
-      width: 120px;
-      height: 120px;
-      background: radial-gradient(circle, rgba(255,215,0,0.6), transparent 70%);
-      top: 0;
-      left: 0;
+      top: 50%;
+      left: 50%;
+      width: 140px;
+      height: 140px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(255,215,0,0.7), transparent 70%);
       border-radius: 50%;
       opacity: 0;
       transition: opacity 0.6s ease;
@@ -337,74 +544,78 @@
       margin-top: 14px;
       color: #f5eaff;
       font-size: 1.1rem;
-      animation: fadeIn 1.2s forwards;
+      animation: fadeIn 1.2s ease forwards;
     }
 
-    @keyframes fadeIn { from { opacity: 0;} to {opacity: 1;} }
-
-    /* Konfetti */
-
-    .confetti {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 0;
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
-
-    .confetti span {
-      position: absolute;
-      width: 3px;
-      height: 8px;
-      background: #ffd700;
-      border-radius: 2px;
-      opacity: 0.5;
-      animation: confettiFall 3.5s linear infinite;
-    }
-
-    @keyframes confettiFall {
-      0% { transform: translateY(-20vh); opacity: 0.4; }
-      20%{ opacity: 1; }
-      100%{ transform: translateY(100vh); opacity: 0; }
-    }
-
-    .confetti span:nth-child(1) { left: 6%;  animation-delay: 0.2s; }
-    .confetti span:nth-child(2) { left: 16%; animation-delay: 1.1s; }
-    .confetti span:nth-child(3) { left: 84%; animation-delay: 0.6s; }
-    .confetti span:nth-child(4) { left: 94%; animation-delay: 1.7s; }
 
     /* Mobil */
 
     @media (max-width: 480px) {
-      .container { padding: 20px 14px 22px; }
-      h1 { font-size: 1.6rem; }
-      .ticket { width: 80%; }
-      .intro-main { font-size: 1rem; }
-      .intro-count-number { font-size: 2.4rem; }
+      .container {
+        padding: 20px 14px 22px;
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      .subtitle {
+        font-size: 0.9rem;
+      }
+
+      .ticket {
+        width: 80%;
+        max-width: none;
+        margin-bottom: 6px;
+      }
+
+      .ticket-left,
+      .ticket-right {
+        transform: rotate(0deg);
+      }
+
+      .intro-main {
+        font-size: 1rem;
+      }
+
+      .intro-count-number {
+        font-size: 2.4rem;
+      }
     }
 
   </style>
 </head>
 <body>
 
-  <!-- Intro -->
+  <!-- Introsekvens -->
   <div id="introOverlay" class="intro-overlay">
-    <p id="introMain" class="intro-main">Sjekker om Sigrid har vært snill i år…</p>
-    <p id="introSub" class="intro-sub"></p>
-    <div id="introDots" class="intro-dots">...</div>
-    <div id="introBar" class="intro-bar hidden"><div id="introBarFill" class="intro-bar-fill"></div></div>
-    <div id="introCount" class="intro-count-wrapper">
-      <div style="color:#dcd8ff;">Gaven er klar om</div>
-      <div id="introCountNumber" class="intro-count-number">5</div>
+    <div class="intro-box">
+      <p id="introMain" class="intro-main">Sjekker om Sigrid har vært snill i år…</p>
+      <p id="introSub" class="intro-sub"></p>
+      <div id="introDots" class="intro-dots">...</div>
+      <div id="introBar" class="intro-bar">
+        <div id="introBarFill" class="intro-bar-fill"></div>
+      </div>
+      <div id="introCount" class="intro-count-wrapper">
+        <div class="intro-count-label">Gaven er klar om</div>
+        <div id="introCountNumber" class="intro-count-number">5</div>
+      </div>
     </div>
   </div>
 
   <!-- Gave-eske -->
   <div id="giftStage" class="gift-stage">
-    <div class="gift-box-wrapper" id="giftBoxWrapper">
-      <div class="gift-lid" id="giftLid"></div>
-      <div class="gift-base">🎁</div>
-      <div class="gift-light" id="giftLight"></div>
+    <div id="giftBoxWrapper" class="gift-box-wrapper">
+      <div id="giftLight" class="gift-light"></div>
+      <div id="giftLid" class="gift-lid"></div>
+      <div class="gift-base">
+        <div class="gift-emoji">🎁</div>
+      </div>
     </div>
     <p class="gift-text">Trykk for å åpne gaven</p>
   </div>
@@ -414,104 +625,191 @@
     <span></span><span></span><span></span><span></span>
   </div>
 
-  <!-- Hovedinnhold -->
   <main class="container">
     <h1>God jul Sigrid! ❤️🎄</h1>
-    <p class="subtitle">Vi skal på konsert!<br><strong>TAME IMPALA, 27. APRIL, OSLO</strong></p>
-    <p class="note">Dette er <span>din</span> bekreftelse på at du er kidnappet til konsert. Ingen refusjon, bare god stemning ✨</p>
+    <p class="subtitle">
+      Vi skal på konsert!<br>
+      <strong>TAME IMPALA, 27. APRIL, OSLO</strong>
+    </p>
+
+    <p class="note">
+      Dette er <span>din</span> offisielle bekreftelse på du endelig skal få se din favoritt (etter meg ofc) live.
+      Ingen refusjon, bare god stemning. ✨
+    </p>
 
     <button class="reveal-btn" id="revealBtn">Vis mer info 🎁</button>
-    <div id="hiddenSection" class="hidden-section">
+
+    <div class="hidden-section" id="hiddenSection">
       <p><strong>Praktisk info:</strong></p>
-      <p>• Vi drar dagen før<br>• Overnatting ordner jeg<br>• Du trenger bare å være søt<br>• Jeg fikser resten 🫶</p>
+      <p>
+        • Vi drar til Sandejord noen dager før<br>
+        • Overnatting ordner jeg<br>
+        • Du trenger bare å møte opp og være søt<br>
+        • Jeg fikser resten 🫶
+        • En liten overraskelse til: Åsne og Herman skal også wohoo!🎉
+      </p>
     </div>
 
     <div class="tickets">
-      <div class="ticket">
-        <div class="ticket-header"><span>Konsertbillett</span><span>Rad ♥</span></div>
+      <!-- Billett 1 -->
+      <div class="ticket ticket-left">
+        <div class="ticket-header">
+          <span>Konsertbillett</span>
+          <span>Rad ♥</span>
+        </div>
         <div class="ticket-title">TAME IMPALA</div>
-        <div class="ticket-info">27. april · Oslo<br>To plasser reservert til<br><strong>deg + han dusten som ga gaven</strong></div>
-        <div class="ticket-footer"><span>Inngang</span><span class="ticket-code">001</span></div>
+        <div class="ticket-info">
+          27. april · Oslo<br>
+          To plasser reservert til<br>
+          <strong>deg + han kule fyren som ga gaven</strong>
+        </div>
+        <div class="ticket-footer">
+          <span>Inngang</span>
+          <span class="ticket-code">JULEGAVE-001</span>
+        </div>
       </div>
 
-      <div class="ticket">
-        <div class="ticket-header"><span>Konsertbillett</span><span>Rad 💫</span></div>
+      <!-- Billett 2 -->
+      <div class="ticket ticket-right">
+        <div class="ticket-header">
+          <span>Konsertbillett</span>
+          <span>Rad 💫</span>
+        </div>
         <div class="ticket-title">TAME IMPALA</div>
-        <div class="ticket-info">Dato: 27. april<br>Sted: Oslo<br>Dresskode: <strong>godt humør</strong></div>
-        <div class="ticket-footer"><span>VIP-ish</span><span class="ticket-code">002</span></div>
+        <div class="ticket-info">
+          Dato: 27. april<br>
+          Sted: Oslo<br>
+          Dresskode: <strong>godt humør</strong>
+        </div>
+        <div class="ticket-footer">
+          <span>VIP-ish</span>
+          <span class="ticket-code">JULEGAVE-002</span>
+        </div>
       </div>
     </div>
 
+    <p class="small-hint">
+      (Hvis du lurer på noe mer: spør han som fikk deg til å scanne denne) 😏
+    </p>
   </main>
 
   <script>
+    // Knapp for mer info
     const btn = document.getElementById("revealBtn");
-    const hidden = document.getElementById("hiddenSection");
-    btn.onclick = () => {
-      hidden.classList.toggle("show");
-      btn.textContent = hidden.classList.contains("show") ? "Skjul info 🔒" : "Vis mer info 🎁";
-    };
+    const section = document.getElementById("hiddenSection");
 
-    /* INTRO LOGIKK */
+    btn.addEventListener("click", () => {
+      section.classList.toggle("show");
+      btn.textContent = section.classList.contains("show")
+        ? "Skjul info 🔒"
+        : "Vis mer info 🎁";
+    });
 
-    const introOverlay = document.getElementById("introOverlay");
+    // Intro-sekvens
+    const overlay = document.getElementById("introOverlay");
     const introMain = document.getElementById("introMain");
-    const introSub = document.getElementById("introSub");
+    const introSub  = document.getElementById("introSub");
     const introDots = document.getElementById("introDots");
-    const introBar = document.getElementById("introBar");
-    const introCount = document.getElementById("introCount");
+    const introBar  = document.getElementById("introBar");
+    const introBarFill = document.getElementById("introBarFill");
+    const introCountWrap = document.getElementById("introCount");
     const introCountNumber = document.getElementById("introCountNumber");
 
-    const introSteps = [
-      { text: "Sjekker om Sigrid har vært snill i år…", sub:"", dots:true, bar:false, duration:3500 },
-      { text: "Analyserer Sigrids julestatus…", sub:"", dots:false, bar:true, duration:4200 },
-      { text: "Resultat klart.", sub:"Sigrid er … akkurat snill nok 🎁", dots:false, bar:false, duration:4200 },
-      { text: "Starter superhemmelig gaveprotokoll…", sub:"", dots:false, bar:false, duration:3500 },
-      { text: "Kalibrerer romantikknivå…", sub:"", dots:false, bar:false, duration:3500 },
-      { text: "Tester forventningsmotor…", sub:"", dots:false, bar:false, duration:3500 },
-      { text: "Overraskelse klar.", sub:"", dots:false, bar:false, duration:3500 }
+    const steps = [
+      {
+        text: "Sjekker om Sigrid har vært snill i år…",
+        sub: "",
+        showDots: true,
+        showBar: false,
+        duration: 3500
+      },
+      {
+        text: "Analyserer Sigrids julestatus…",
+        sub: "",
+        showDots: false,
+        showBar: true,
+        duration: 4200,
+        restartBar: true
+      },
+      {
+        text: "Resultat klart.",
+        sub: "Sigrid er … akkurat snill nok til å få gaven 🎁",
+        showDots: false,
+        showBar: false,
+        duration: 4200
+      },
+      {
+        text: "Starter superhemmelig gaveprotokoll…",
+        sub: "",
+        showDots: false,
+        showBar: false,
+        duration: 3500
+      },
+      {
+        text: "Kalibrerer romantikknivå…",
+        sub: "",
+        showDots: false,
+        showBar: false,
+        duration: 3500
+      },
+      {
+        text: "Tester forventningsmotor…",
+        sub: "",
+        showDots: false,
+        showBar: false,
+        duration: 3500
+      },
+      {
+        text: "Julegave klar.",
+        sub: "",
+        showDots: false,
+        showBar: false,
+        duration: 3500
+      }
     ];
 
-    let introIndex = 0;
+    let stepIndex = 0;
 
-    function runIntro() {
-      const step = introSteps[introIndex];
+    function runStep() {
+      const step = steps[stepIndex];
       introMain.textContent = step.text;
-      introSub.textContent = step.sub;
+      introSub.textContent = step.sub || "";
 
-      introDots.style.display = step.dots ? "block" : "none";
-      introBar.style.display = step.bar ? "block" : "none";
+      introDots.style.display = step.showDots ? "block" : "none";
+      introBar.style.display  = step.showBar ? "block" : "none";
 
-      if(step.bar) {
+      if (step.showBar && step.restartBar) {
         introBarFill.style.animation = "none";
         void introBarFill.offsetWidth;
-        introBarFill.style.animation = "fill 3s linear forwards";
+        introBarFill.style.animation = "bar-fill 3s linear forwards";
       }
 
       setTimeout(() => {
-        introIndex++;
-        if(introIndex < introSteps.length) {
-          runIntro();
+        stepIndex++;
+        if (stepIndex < steps.length) {
+          runStep();
         } else {
           showGiftBox();
         }
       }, step.duration);
     }
 
-    /* GAVEESKE LOGIKK */
-
+    // Gave-eske
     const giftStage = document.getElementById("giftStage");
+    const giftBoxWrapper = document.getElementById("giftBoxWrapper");
     const giftLid = document.getElementById("giftLid");
     const giftLight = document.getElementById("giftLight");
-    const giftBoxWrapper = document.getElementById("giftBoxWrapper");
 
     function showGiftBox() {
-      introOverlay.classList.add("hide");
-      setTimeout(()=> introOverlay.style.display="none", 600);
+      overlay.classList.add("hide");
+      setTimeout(() => {
+        overlay.style.display = "none";
+      }, 650);
+
       giftStage.classList.add("show");
     }
 
-    giftBoxWrapper.onclick = () => {
+    giftBoxWrapper.addEventListener("click", () => {
       giftLid.classList.add("open");
       giftLight.classList.add("show");
 
@@ -519,36 +817,42 @@
         giftStage.classList.remove("show");
         startCountdown();
       }, 1500);
-    };
+    });
 
-    /* NEDTELLING */
-
+    // Nedtelling
     function startCountdown() {
-      introOverlay.style.display = "flex";
-      introOverlay.classList.remove("hide");
+      overlay.style.display = "flex";
+      overlay.classList.remove("hide");
 
       introMain.textContent = "Gaven er klar om";
       introSub.textContent = "";
-      introBar.style.display = "none";
       introDots.style.display = "none";
-      introCount.style.display = "block";
+      introBar.style.display = "none";
+      introCountWrap.style.display = "block";
 
       let count = 5;
       introCountNumber.textContent = count;
 
-      const intv = setInterval(() => {
+      const countdown = setInterval(() => {
         count--;
-        if(count <= 0){
-          clearInterval(intv);
-          introOverlay.classList.add("hide");
-          setTimeout(()=> introOverlay.style.display="none", 600);
-        } else introCountNumber.textContent = count;
+        if (count <= 0) {
+          clearInterval(countdown);
+          overlay.classList.add("hide");
+          setTimeout(() => {
+            overlay.style.display = "none";
+          }, 650);
+        } else {
+          introCountNumber.textContent = count;
+        }
       }, 900);
     }
 
-    window.onload = runIntro;
-  </script>
+    window.addEventListener("load", () => {
+      runStep();
+    });
 
+    console.log("Gave bekreftet: Tame Impala, 27. april, Oslo 🎫");
+  </script>
 </body>
 </html>
 
