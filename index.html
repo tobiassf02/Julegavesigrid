@@ -150,6 +150,26 @@
       transform: translateY(0);
     }
 
+          /* Liten personlig popup */
+      .mini-popup {
+        margin-top: 10px;
+        font-size: 0.85rem;
+        color: #ffdbe8;
+        opacity: 0;
+        transform: translateY(6px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      }
+      
+      .mini-popup.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      .mini-popup.hidden {
+        display: none;
+      }
+
+
     /* Billetter – under teksten */
 
     .tickets {
@@ -393,6 +413,21 @@
         opacity: 0;
       }
     }
+    
+    /* Ekstra konfetti-boost */
+        .confetti-boost {
+          opacity: 0;
+          pointer-events: none;
+        }
+        
+        .confetti-boost.active {
+          opacity: 1;
+        }
+        
+        .confetti-boost span {
+          animation-duration: 2.2s;
+        }
+
 
     .confetti span:nth-child(1) { left: 6%;  animation-delay: 0.2s; }
     .confetti span:nth-child(2) { left: 16%; animation-delay: 1.1s; }
@@ -704,6 +739,12 @@
   <div class="confetti">
     <span></span><span></span><span></span><span></span>
   </div>
+  <!-- Ekstra konfetti ved riktig svar -->
+  <div class="confetti confetti-boost" id="confettiBoost">
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+  </div>
+
 
   <main class="container">
     <h1>God jul Sigrid! ❤️🎄</h1>
@@ -718,6 +759,11 @@
     </p>
 
     <button class="reveal-btn" id="revealBtn">Vis mer info 🎁</button>
+
+    <p class="mini-popup hidden" id="miniPopup">
+    PS: Jeg gleder meg mest til å dra med deg ❤️
+      </p>
+
 
     <div class="hidden-section" id="hiddenSection">
       <p><strong>Praktisk info:</strong></p>
@@ -795,11 +841,24 @@
     const btn = document.getElementById("revealBtn");
     const section = document.getElementById("hiddenSection");
 
+    let popupShown = false;
+    
     btn.addEventListener("click", () => {
       section.classList.toggle("show");
       btn.textContent = section.classList.contains("show")
         ? "Skjul info 🔒"
         : "Vis mer info 🎁";
+    
+      if (!popupShown && section.classList.contains("show")) {
+        popupShown = true;
+        const popup = document.getElementById("miniPopup");
+        setTimeout(() => {
+          popup.classList.remove("hidden");
+          popup.classList.add("show");
+        }, 2000);
+      }
+    });
+
     });
 
     // Intro-sekvens
@@ -974,9 +1033,17 @@
 
       if (!yesBtn || !noBtn || !resp) return;
 
-      yesBtn.addEventListener("click", () => {
-        resp.textContent = "Riktig svar. Dette blir sykt kos ❤️";
-        resp.classList.add("positive");
+        yesBtn.addEventListener("click", () => {
+          resp.textContent = "Riktig svar. Dette blir sykt kos ❤️";
+          resp.classList.add("positive");
+        
+          const boost = document.getElementById("confettiBoost");
+          if (boost) {
+            boost.classList.add("active");
+            setTimeout(() => boost.classList.remove("active"), 1500);
+          }
+        });
+
       });
 
       noBtn.addEventListener("click", () => {
