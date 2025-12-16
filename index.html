@@ -433,6 +433,22 @@
     .confetti span:nth-child(2) { left: 16%; animation-delay: 1.1s; }
     .confetti span:nth-child(3) { left: 84%; animation-delay: 0.6s; }
     .confetti span:nth-child(4) { left: 94%; animation-delay: 1.7s; }
+    
+    .confetti-boost span:nth-child(1) { left: 8%;  animation-delay: 0.0s; }
+    .confetti-boost span:nth-child(2) { left: 18%; animation-delay: 0.2s; }
+    .confetti-boost span:nth-child(3) { left: 30%; animation-delay: 0.1s; }
+    .confetti-boost span:nth-child(4) { left: 42%; animation-delay: 0.3s; }
+    .confetti-boost span:nth-child(5) { left: 58%; animation-delay: 0.05s; }
+    .confetti-boost span:nth-child(6) { left: 70%; animation-delay: 0.25s; }
+    .confetti-boost span:nth-child(7) { left: 82%; animation-delay: 0.15s; }
+    .confetti-boost span:nth-child(8) { left: 92%; animation-delay: 0.35s; }
+
+/* Litt “kraftigere” boost når den aktiveres */
+.confetti-boost.active span {
+  opacity: 0.9;
+  animation-duration: 1.8s;
+}
+
 
     /* Intro-overlay med boks */
 
@@ -849,15 +865,18 @@
         ? "Skjul info 🔒"
         : "Vis mer info 🎁";
     
+      const popup = document.getElementById("miniPopup");
+      if (!popup) return;
+    
       if (!popupShown && section.classList.contains("show")) {
         popupShown = true;
-        const popup = document.getElementById("miniPopup");
         setTimeout(() => {
           popup.classList.remove("hidden");
           popup.classList.add("show");
         }, 2000);
       }
     });
+
 
     // Intro-sekvens
     const overlay = document.getElementById("introOverlay");
@@ -1024,24 +1043,32 @@
       span.textContent = diff >= 0 ? diff : 0;
     })();
     // Ja / Nei-knapper
-// Ja / Nei-knapper
-(function() {
-  const yesBtn = document.getElementById("rsvpYes");
-  const noBtn = document.getElementById("rsvpNo");
-  const resp = document.getElementById("rsvpResponse");
+    (function() {
+      const yesBtn = document.getElementById("rsvpYes");
+      const noBtn = document.getElementById("rsvpNo");
+      const resp = document.getElementById("rsvpResponse");
+      const boost = document.getElementById("confettiBoost");
+    
+      if (!yesBtn || !noBtn || !resp) return;
+    
+      yesBtn.addEventListener("click", () => {
+        resp.textContent = "Riktig svar. Dette blir sykt kos ❤️";
+        resp.classList.add("positive");
+    
+        if (boost) {
+          boost.classList.add("active");
+          setTimeout(() => boost.classList.remove("active"), 1500);
+        }
+      });
+    
+      noBtn.addEventListener("click", () => {
+        resp.textContent = "Feil svar. Prøv igjen 😈";
+        resp.classList.remove("positive");
+        noBtn.classList.add("shake");
+        setTimeout(() => noBtn.classList.remove("shake"), 300);
+      });
+    })();
 
-  if (!yesBtn || !noBtn || !resp) return;
-
-  yesBtn.addEventListener("click", () => {
-    resp.textContent = "Riktig svar. Dette blir sykt kos ❤️";
-    resp.classList.add("positive");
-
-    const boost = document.getElementById("confettiBoost");
-    if (boost) {
-      boost.classList.add("active");
-      setTimeout(() => boost.classList.remove("active"), 1500);
-    }
-  });
 
   noBtn.addEventListener("click", () => {
     resp.textContent = "Feil svar. Prøv igjen 😈";
