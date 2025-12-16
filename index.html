@@ -718,6 +718,64 @@
         font-size: 2.4rem;
       }
     }
+    /* Cinematic reveal overlay */
+.cinematic-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 950; /* under intro-overlay (999), over alt annet */
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(3, 4, 10, 0.92);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+.cinematic-overlay.show {
+  display: flex;
+}
+
+.cinematic-text {
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-shadow: 0 0 28px rgba(255, 223, 91, 0.35);
+  transform: scale(0.2);
+  opacity: 0;
+  will-change: transform, opacity;
+  text-align: center;
+  padding: 0 14px;
+  /* Stor og mobilvennlig: */
+  font-size: clamp(2.2rem, 12vw, 5rem);
+}
+
+.cinematic-text.play {
+  animation: cinematic-pop 1.05s ease-out forwards;
+}
+
+@keyframes cinematic-pop {
+  0% {
+    transform: scale(0.2);
+    opacity: 0;
+    filter: blur(6px);
+  }
+  35% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+  100% {
+    transform: scale(1.9); /* dekker skjermen på mobil */
+    opacity: 0;
+  }
+}
+
+/* Litt mer “film” på store skjermer */
+@media (min-width: 700px) {
+  .cinematic-text.play {
+    animation-duration: 1.1s;
+  }
+}
 
   </style>
 </head>
@@ -750,6 +808,12 @@
     </div>
     <p class="gift-text">Trykk for å åpne gaven</p>
   </div>
+
+  <!-- Cinematic reveal (etter nedtelling, før info) -->
+<div id="cinematicOverlay" class="cinematic-overlay">
+  <div id="cinematicText" class="cinematic-text">27. APRIL</div>
+</div>
+
 
   <!-- Konfetti -->
   <div class="confetti">
@@ -1007,19 +1071,60 @@
       introCountNumber.textContent = count;
 
       const countdown = setInterval(() => {
-        count--;
-        if (count <= 0) {
-          clearInterval(countdown);
-          overlay.classList.add("hide");
-          setTimeout(() => {
-            overlay.style.display = "none";
-          }, 650);
-        } else {
-          introCountNumber.textContent = count;
-        }
+              count--;
+      if (count <= 0) {
+        clearInterval(countdown);
+      
+        // Skjul nedtelling-overlay først
+        overlay.classList.add("hide");
+        setTimeout(() => {
+          overlay.style.display = "none";
+      
+          // Kjør cinematic reveal før main-siden er “fri”
+          runCinematicReveal();
+        }, 650);
+      
+      } else {
+        introCountNumber.textContent = count;
+      }
+
       }, 900);
     }
 
+    function runCinematicReveal() {
+  const cinOverlay = document.getElementById("cinematicOverlay");
+  const cinText = document.getElementById("cinematicText");
+  if (!cinOverlay || !cinText) return;
+
+  const words = ["27. APRIL", "TAME", "IMPALA"];
+  let i = 0;
+
+  cinOverlay.classList.add("show");
+
+  function playNext() {
+    cinText.textContent = words[i];
+
+    // restart animation
+    cinText.classList.remove("play");
+    void cinText.offsetWidth;
+    cinText.classList.add("play");
+
+    i++;
+
+    // ca samme som animasjonslengde + litt pause
+    setTimeout(() => {
+      if (i < words.length) {
+        playNext();
+      } else {
+        cinOverlay.classList.remove("show");
+      }
+    }, 1150);
+  }
+
+  playNext();
+}
+
+    
     window.addEventListener("load", () => {
       runStep();
     });
