@@ -726,7 +726,7 @@
   display: none;
   align-items: center;
   justify-content: center;
-  background: rgba(3, 4, 10, 0.92);
+  background: #03040a;
   backdrop-filter: blur(6px);
   pointer-events: none;
 }
@@ -784,10 +784,12 @@
 }
     /* Skjul hovedinnhold til vi er klare */
 .container.hidden-ui {
-  opacity: 0;
-  transform: translateY(12px);
-  pointer-events: none;
+  opacity: 0 !important;
+  transform: translateY(12px) !important;
+  pointer-events: none !important;
+  animation: none !important; /* VIKTIG: stopper card-pop fra å overstyre */
 }
+
 
 .container.show-ui {
   opacity: 1;
@@ -952,6 +954,12 @@
   </main>
 
   <script>
+    const mainUI = document.getElementById("mainUI");
+if (mainUI) {
+  mainUI.classList.add("hidden-ui");
+  mainUI.classList.remove("show-ui");
+}
+
     // Knapp for mer info
     const btn = document.getElementById("revealBtn");
     const section = document.getElementById("hiddenSection");
